@@ -60,7 +60,15 @@ namespace DoctorWh0oDiscordBot
             Client.Log += Client_Log;
 
 
-            ESettings.Token = File.ReadLines(@"C:\Users\awessels\source\repos\DoctorWh0oDiscordBot\.gitignore").Skip(263).Take(1).First();
+            string line;
+            StreamReader file = new StreamReader(@"C:\Users\awessels\source\repos\DoctorWh0oDiscordBot\settings.txt");
+            while((line= file.ReadLine()) != null)
+            {
+                ESettings.Token = line;
+            }
+
+
+            //ESettings.Token = File.ReadLine(@"C:\Users\awessels\source\repos\DoctorWh0oDiscordBot\settings.txt");
 
 
                 await Client.LoginAsync(TokenType.Bot, ESettings.Token);
