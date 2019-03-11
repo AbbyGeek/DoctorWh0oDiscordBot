@@ -13,6 +13,7 @@ using Discord.WebSocket;
 
 using DoctorWh0oDiscordBot.Resources.Datatypes;
 using DoctorWh0oDiscordBot.Resources.Settings;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DoctorWh0oDiscordBot
 {
@@ -20,25 +21,12 @@ namespace DoctorWh0oDiscordBot
     {
         private DiscordSocketClient Client;
         private CommandService Commands;
+        private IServiceProvider Services;
 
         static void Main(string[] args) => new Program().MainAsync().GetAwaiter().GetResult();
 
         private async Task MainAsync()
         {
-            //string JSON = "";
-            //string SettingsLocation = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location).Replace(@"bin\Debug\netcoreapp2.0", @"Data\Settings.json");
-            //using (var Stream = new FileStream(SettingsLocation, FileMode.Open, FileAccess.Read))
-            //using (var ReadSettings = new StreamReader(Stream))
-            //{
-            //    JSON = ReadSettings.ReadToEnd();
-            //}
-
-            //Setting Settings = JsonConvert.DeserializeObject<Setting>(JSON);
-            //ESettings.Banned = Settings.banned;
-            //ESettings.Log = Settings.log;
-            //ESettings.Owner = Settings.owner;
-            //ESettings.Token = Settings.token;
-            //ESettings.Version = Settings.version;
 
             Client = new DiscordSocketClient(new DiscordSocketConfig
             {
@@ -48,10 +36,16 @@ namespace DoctorWh0oDiscordBot
             //help help HELP heLp
             Commands = new CommandService(new CommandServiceConfig
             {
-                CaseSensitiveCommands = true,
+                CaseSensitiveCommands = false,
                 DefaultRunMode = RunMode.Async,
                 LogLevel = LogSeverity.Debug
             });
+
+            Services = new ServiceCollection()
+                .AddSingleton(Client)
+                .AddSingleton(Commands)
+                .BuildServiceProvider();
+
 
             Client.MessageReceived += Client_MessageReceived;
             await Commands.AddModulesAsync(assembly: Assembly.GetEntryAssembly(), services: null);
@@ -66,10 +60,6 @@ namespace DoctorWh0oDiscordBot
             {
                 ESettings.Token = line;
             }
-
-
-            //ESettings.Token = File.ReadLine(@"C:\Users\awessels\source\repos\DoctorWh0oDiscordBot\settings.txt");
-
 
                 await Client.LoginAsync(TokenType.Bot, ESettings.Token);
             await Client.StartAsync();
@@ -98,16 +88,21 @@ namespace DoctorWh0oDiscordBot
         {
             var Message = MessageParam as SocketUserMessage;
             var Context = new SocketCommandContext(Client, Message);
+            
 
             if (Context.Message == null || Context.Message.Content == "") return;
             if (Context.User.IsBot) return;
 
-            int ArgPos = 0;
-            if (!(Message.HasStringPrefix("a!", ref ArgPos) || Message.HasMentionPrefix(Client.CurrentUser, ref ArgPos))) return;
-
-            var Result = await Commands.ExecuteAsync(Context, ArgPos, services: null);
-            if (!Result.IsSuccess)
-                Console.WriteLine($"{DateTime.Now} at Commands] Something went wrong with executing a command. Text: {Context.Message.Content} | Error: {Result.ErrorReason}");
+            int argPos = 0;
+            if(Message.HasStringPrefix("!", ref argPos) || Message.HasMentionPrefix(Client.CurrentUser, ref argPos))
+            {
+                var context = new SocketCommandContext(Client, Message);
+                var result = await Commands.ExecuteAsync(Context, argPos, Services);
+                if (!result.IsSuccess)
+                {
+                    Console.WriteLine($"{DateTime.Now} at Commands] Something went wrong with executing a command. Text: {Context.Message.Content} | Error: {result.ErrorReason}");
+                }
+            }
         }
     }
 }
