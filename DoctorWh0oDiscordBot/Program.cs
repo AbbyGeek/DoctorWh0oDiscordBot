@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using DoctorWh0oDiscordBot.Core.Commands;
 using DoctorWh0oDiscordBot.Resources.Settings;
 
 namespace DoctorWh0oDiscordBot
@@ -60,9 +61,26 @@ namespace DoctorWh0oDiscordBot
             await _client.SetGameAsync("you sleep", "", ActivityType.Watching);
         }
 
-        private Task Client_MessageReceived(SocketMessage arg)
+        private async Task Client_MessageReceived(SocketMessage MessageParam)
         {
-            throw new NotImplementedException();
+            var Message = MessageParam as SocketUserMessage;
+            var Context = new SocketCommandContext(_client, Message);
+
+            if (Context.Message == null || Context.Message.Content == "") return;
+            if (Context.User.IsBot) return;
+
+            int ArgPos = 0;
+
+            if(Message.Content.Contains("@everyone"))
+            {
+                await Context.Channel.SendFileAsync(@"C:\Users\awessels\source\repos\DoctorWh0oDiscordBot\DoctorWh0oDiscordBot\Data\atEveryone.jpg");
+            }
+            if (!(Message.HasStringPrefix("!", ref ArgPos) || Message.HasMentionPrefix(_client.CurrentUser, ref ArgPos))) return;
+
+            var Result = await _commands.ExecuteAsync(Context, ArgPos, null);
+            if (!Result.IsSuccess)
+                Console.WriteLine($"{DateTime.Now} at Commands] Something went wrong. Text: {Context.Message.Content} | Error: {Result.ErrorReason}");
+
         }
     }
 }
