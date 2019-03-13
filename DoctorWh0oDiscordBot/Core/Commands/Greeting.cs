@@ -12,7 +12,7 @@ namespace DoctorWh0oDiscordBot.Core.Commands
 {
     class Greeting : ModuleBase<SocketCommandContext>
     {
-        [Command("hello"), Alias("helloworld", "world"), Summary("Hello world command")]
+        [Command("hello")]
         public async Task HelloWorld()
         {
             await Context.Channel.SendMessageAsync("Hello World");
