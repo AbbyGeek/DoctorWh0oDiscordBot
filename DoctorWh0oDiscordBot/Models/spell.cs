@@ -4,9 +4,15 @@ using System.Text;
 
 namespace DoctorWh0oDiscordBot.Models
 {
-    class spell
+    public class Spell
     {
-        public string SpellName { get; set; }
-        public string SpellURL { get; set; }
+        public string name { get; set; }
+        public string url { get; set; }
+    }
+
+    public class RootObject
+    {
+        public int count { get; set; }
+        public List<Spell> results { get; set; }
     }
 }

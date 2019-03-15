@@ -71,10 +71,9 @@ namespace DoctorWh0oDiscordBot
 
             int ArgPos = 0;
 
-            if(Message.Content.Contains("@everyone"))
-            {
-                await Context.Channel.SendFileAsync(@"C:\Users\awessels\source\repos\DoctorWh0oDiscordBot\DoctorWh0oDiscordBot\Data\atEveryone.jpg");
-            }
+            if(Message.Content.Contains("@everyone")) await Context.Channel.SendFileAsync(@"C:\Users\awessels\source\repos\DoctorWh0oDiscordBot\DoctorWh0oDiscordBot\Data\atEveryone.jpg");
+            
+
             if (!(Message.HasStringPrefix("!", ref ArgPos) || Message.HasMentionPrefix(_client.CurrentUser, ref ArgPos))) return;
 
             var Result = await _commands.ExecuteAsync(Context, ArgPos, null);
