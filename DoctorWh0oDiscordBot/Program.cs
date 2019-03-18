@@ -27,7 +27,7 @@ namespace DoctorWh0oDiscordBot
 
             _commands = new CommandService(new CommandServiceConfig
             {
-                CaseSensitiveCommands = false,
+                CaseSensitiveCommands = true,
                 DefaultRunMode = RunMode.Async,
                 LogLevel = LogSeverity.Debug
             });
@@ -49,6 +49,8 @@ namespace DoctorWh0oDiscordBot
             await _client.StartAsync();
 
             await Task.Delay(-1);
+
+            //PING DATABASE AND SAVE DATA TO A LOCAL FILE. USE THAT DATA TO PULL FROM COMMANDS
         }
 
         private async Task Client_Log(LogMessage Message)
@@ -76,7 +78,9 @@ namespace DoctorWh0oDiscordBot
 
             if (!(Message.HasStringPrefix("!", ref ArgPos) || Message.HasMentionPrefix(_client.CurrentUser, ref ArgPos))) return;
 
+            string SpellName = Message.ToString().Split(" ")[1];
             var Result = await _commands.ExecuteAsync(Context, ArgPos, null);
+            
             if (!Result.IsSuccess)
                 Console.WriteLine($"{DateTime.Now} at Commands] Something went wrong. Text: {Context.Message.Content} | Error: {Result.ErrorReason}");
 
