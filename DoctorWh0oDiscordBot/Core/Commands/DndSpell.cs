@@ -80,13 +80,12 @@ namespace DoctorWh0oDiscordBot.Core.Commands
             var spellCard = new EmbedBuilder();
             spellCard.WithTitle(spellDetails.name);
 
-            spellCard.AddField("Casting Time", spellDetails.casting_time, true);
-            spellCard.AddField("Range", spellDetails.range, true);
-            spellCard.AddField("Duration", spellDetails.duration, true);
-            spellCard.AddField("Components", components, true);
-            spellCard.AddField("Materials", spellDetails.material, true);
-
-            spellCard.WithDescription(spellDetails.desc[0]);
+            if(!(spellDetails.casting_time == null)) spellCard.AddField("Casting Time", spellDetails.casting_time, true);
+            if (!(spellDetails.range == null)) spellCard.AddField("Range", spellDetails.range, true);
+            if (!(spellDetails.duration == null)) spellCard.AddField("Duration", spellDetails.duration, true);
+            if (!(spellDetails.components == null)) spellCard.AddField("Components", components, true);
+            if (!(spellDetails.material == null)) spellCard.AddField("Materials", spellDetails.material, true);
+            if (!(spellDetails.desc[0] == null)) spellCard.WithDescription(spellDetails.desc[0]);
 
 
             return spellCard;
