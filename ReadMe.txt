@@ -13,68 +13,48 @@ Within the program, you'll need to edit the file path to the settings document. 
 What things you need to install the software and how to install them
 
 ```
-Give examples
+.net CORE 2.1
+Visual Studio
+
 ```
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+as of right now this program is unfinished and will have to be executed through Visual Stuido. Eventually this will be improved.
 
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
+Add your bot token
 
 ```
-until finished
+In the main project folder, add a text file called "settings.txt". Paste your key inside the file
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+Change file path in the main program.
 
 ```
-Give an example
+Open visual studio and in the main program, line 42, change the file path to target your new settings file.
 ```
 
-### And coding style tests
+run the program to bring the bot online
 
-Explain what these tests test and why
 
-```
-Give an example
-```
+## Chat Commands
 
-## Deployment
+!spells "spell name" will return a spell card for a Dnd 5e spell. (note: spells with multiple words in the title will need to be in quotations)
 
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [DnD 5e API](http://www.dnd5eapi.co/) - Dnd online database
+* [Discord.NET](https://github.com/discord-net/Discord.Net) - .NET framework for discord bots
+
 
 ## Contributing
 
 Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Abby West** - *Initial work* - [Github](https://github.com/abbygeek)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
