@@ -39,7 +39,7 @@ namespace DoctorWh0oDiscordBot
             _client.Log += Client_Log;
 
             string line;
-            StreamReader file = new StreamReader(@"C:\Users\awessels\source\repos\DoctorWh0oDiscordBot\settings.txt");
+            StreamReader file = new StreamReader(@"..\..\..\..\settings.txt");
             while ((line = file.ReadLine()) != null)
             {
                 ESettings.Token = line;
@@ -51,6 +51,7 @@ namespace DoctorWh0oDiscordBot
             await Task.Delay(-1);
 
             //PING DATABASE AND SAVE DATA TO A LOCAL FILE. USE THAT DATA TO PULL FROM COMMANDS
+
         }
 
         private async Task Client_Log(LogMessage Message)
@@ -73,7 +74,7 @@ namespace DoctorWh0oDiscordBot
 
             int ArgPos = 0;
 
-            if(Message.Content.Contains("@everyone")) await Context.Channel.SendFileAsync(@"C:\Users\awessels\source\repos\DoctorWh0oDiscordBot\DoctorWh0oDiscordBot\Data\atEveryone.jpg");
+            if(Message.Content.Contains("@everyone")) await Context.Channel.SendFileAsync(@"..\..\..\..\DoctorWh0oDiscordBot\Data\atEveryone.jpg");
             
 
             if (!(Message.HasStringPrefix("!", ref ArgPos) || Message.HasMentionPrefix(_client.CurrentUser, ref ArgPos))) return;
