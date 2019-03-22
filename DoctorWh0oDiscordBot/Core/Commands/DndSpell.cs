@@ -14,31 +14,32 @@ namespace DoctorWh0oDiscordBot.Core.Commands
     public class DndSpell : ModuleBase<SocketCommandContext>
     {
         const string UserAgent = "Mozilla / 5.0(Windows NT 6.1; Win64; x64; rv: 47.0) Gecko / 20100101 Firefox / 47.0";
-        string[] SpellArray;
-        
+        string SpellName;
 
         [Command("spells")]
         public async Task produceURL(string message)
         {
-            message = message.ToLower();
-            SpellArray = Context.Message.ToString().Split(" ");
-
-
-            Dictionary<string, string> SpellDictionary = CreateArrayOfAllSpells(SpellArray);
+            SpellName = message.ToLower();
+            
+            Dictionary<string, string> SpellDictionary = CreateArrayOfAllSpells();
             string url;
-            if (SpellDictionary.TryGetValue(message.ToString(), out url))
+            if (SpellDictionary.TryGetValue(SpellName, out url))
             {
-                int spellIndex = (Array.IndexOf(SpellDictionary.Keys.ToArray(), message) + 1);
+                int spellIndex = (Array.IndexOf(SpellDictionary.Keys.ToArray(), SpellName) + 1);
 
                 SpellDetails spellDetials = ProduceSpellInfo(spellIndex);
                 EmbedBuilder SpellCard = SpellCardMaker(spellDetials);
                 await Context.Channel.SendMessageAsync("", false, SpellCard.Build());
             }
+            else
+            {
+                await Context.Channel.SendMessageAsync(TypoResponse.TypoRespond(SpellDictionary,SpellName, "spell"));
+            }
 
         }
 
 
-        public Dictionary<string, string> CreateArrayOfAllSpells(string[] SpellArray)
+        public Dictionary<string, string> CreateArrayOfAllSpells()
         {
             using (var webClient = new WebClient())
             {
@@ -85,7 +86,9 @@ namespace DoctorWh0oDiscordBot.Core.Commands
             if (!(spellDetails.duration == null)) spellCard.AddField("Duration", spellDetails.duration, true);
             if (!(spellDetails.components == null)) spellCard.AddField("Components", components, true);
             if (!(spellDetails.material == null)) spellCard.AddField("Materials", spellDetails.material, true);
+            spellCard.AddField("Spell level", spellDetails.level, true);
             if (!(spellDetails.desc[0] == null)) spellCard.WithDescription(spellDetails.desc[0]);
+            if (!(spellDetails.higher_level[0] == null)) spellCard.AddField("At Higher Levels", spellDetails.higher_level[0], false);
 
 
             return spellCard;
