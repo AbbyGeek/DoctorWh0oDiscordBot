@@ -54,9 +54,9 @@ namespace DoctorWh0oDiscordBot.Models
         public int intelligence { get; set; }
         public int wisdom { get; set; }
         public int charisma { get; set; }
-        public int constitution_save { get; set; }
-        public int intelligence_save { get; set; }
-        public int wisdom_save { get; set; }
+        public int? constitution_save { get; set; }
+        public int? intelligence_save { get; set; }
+        public int? wisdom_save { get; set; }
         public int history { get; set; }
         public int perception { get; set; }
         public string damage_vulnerabilities { get; set; }

@@ -80,7 +80,7 @@ namespace DoctorWh0oDiscordBot.Core.Commands
 
             var spellCard = new EmbedBuilder();
             spellCard.WithTitle(spellDetails.name);
-
+            spellCard.WithColor(Color.Blue);
             if(!(spellDetails.casting_time == null)) spellCard.AddField("Casting Time", spellDetails.casting_time, true);
             if (!(spellDetails.range == null)) spellCard.AddField("Range", spellDetails.range, true);
             if (!(spellDetails.duration == null)) spellCard.AddField("Duration", spellDetails.duration, true);
