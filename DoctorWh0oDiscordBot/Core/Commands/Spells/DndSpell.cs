@@ -20,7 +20,7 @@ namespace DoctorWh0oDiscordBot.Core.Commands
         public async Task produceURL(string message)
         {
             SpellName = message.ToLower();
-            
+
             Dictionary<string, string> SpellDictionary = CreateArrayOfAllSpells();
             string url;
             if (SpellDictionary.TryGetValue(SpellName, out url))
@@ -88,8 +88,8 @@ namespace DoctorWh0oDiscordBot.Core.Commands
             if (!(spellDetails.material == null)) spellCard.AddField("Materials", spellDetails.material, true);
             spellCard.AddField("Spell level", spellDetails.level, true);
             if (!(spellDetails.desc[0] == null)) spellCard.WithDescription(spellDetails.desc[0]);
-            if (!(spellDetails.higher_level[0] == null)) spellCard.AddField("At Higher Levels", spellDetails.higher_level[0], false);
-
+            //if (!(spellDetails.higher_level[0] == null)) spellCard.AddField("At Higher Levels", spellDetails.higher_level[0], false);
+            if (spellDetails.higher_level != null) spellCard.AddField("At higher levels", spellDetails.higher_level[0], false);
 
             return spellCard;
         }
