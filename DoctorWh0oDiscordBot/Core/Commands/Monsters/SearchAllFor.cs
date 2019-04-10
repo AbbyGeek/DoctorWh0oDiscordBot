@@ -15,7 +15,7 @@ namespace DoctorWh0oDiscordBot.Core.Commands.Monsters
     {
         const string UserAgent = "Mozilla / 5.0(Windows NT 6.1; Win64; x64; rv: 47.0) Gecko / 20100101 Firefox / 47.0";
 
-        [Command("MonsterSearch")]
+        [Command("MonsterSearch"), Alias("monstersearch")]
         public async Task listNames(string SearchTerm, string SearchValue)
         {
             List<string> monsters = new List<string>();
@@ -31,7 +31,7 @@ namespace DoctorWh0oDiscordBot.Core.Commands.Monsters
                 {
                     string rawJSON = webClient.DownloadString($"https://raw.githubusercontent.com/adrpadua/5e-database/master/5e-SRD-Monsters.json");
                     List<MonsterDetails> MonsterList = JsonConvert.DeserializeObject<List<MonsterDetails>>(rawJSON);
-                    y = typeof(MonsterDetails).GetProperty(SearchTerm);
+                    y = typeof(MonsterDetails).GetProperty(SearchTerm.ToLower());
                     List<string> names = new List<string>();
 
                     foreach (MonsterDetails monster in MonsterList)

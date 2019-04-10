@@ -16,7 +16,7 @@ namespace DoctorWh0oDiscordBot.Core.Commands
         const string UserAgent = "Mozilla / 5.0(Windows NT 6.1; Win64; x64; rv: 47.0) Gecko / 20100101 Firefox / 47.0";
         string SpellName;
 
-        [Command("spells")]
+        [Command("spells"), Alias("Spells", "spell", "Spell")]
         public async Task produceURL(string message)
         {
             SpellName = message.ToLower();
@@ -37,6 +37,8 @@ namespace DoctorWh0oDiscordBot.Core.Commands
             }
 
         }
+
+       
 
 
         public Dictionary<string, string> CreateArrayOfAllSpells()
@@ -93,6 +95,7 @@ namespace DoctorWh0oDiscordBot.Core.Commands
 
             return spellCard;
         }
+
     }
     
 }

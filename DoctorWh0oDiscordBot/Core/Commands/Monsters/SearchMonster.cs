@@ -16,7 +16,7 @@ namespace DoctorWh0oDiscordBot.Core.Commands.Monsters
         const string UserAgent = "Mozilla / 5.0(Windows NT 6.1; Win64; x64; rv: 47.0) Gecko / 20100101 Firefox / 47.0";
         string MonsterName;
 
-        [Command("monsters")]
+        [Command("Monsters"), Alias("monsters", "monster", "Monsters")]
         public async Task produceURL(string message)
         {
             MonsterName = message.ToLower();
