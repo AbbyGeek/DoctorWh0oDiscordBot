@@ -17,17 +17,17 @@ namespace DoctorWh0oDiscordBot.Core.Commands
         string SpellName;
 
         [Command("spells"), Alias("Spells", "spell", "Spell")]
-        public async Task produceURL(string message)
+        public async Task produceURL([Remainder]string message)
         {
             SpellName = message.ToLower();
-
+            
             Dictionary<string, string> SpellDictionary = CreateArrayOfAllSpells();
             string url;
             if (SpellDictionary.TryGetValue(SpellName, out url))
             {
                 int spellIndex = (Array.IndexOf(SpellDictionary.Keys.ToArray(), SpellName) + 1);
 
-                SpellDetails spellDetials = ProduceSpellInfo(spellIndex);
+                SpellDetails spellDetials = ProduceSpellInfo(SpellName);
                 EmbedBuilder SpellCard = SpellCardMaker(spellDetials);
                 await Context.Channel.SendMessageAsync("", false, SpellCard.Build());
             }
@@ -59,11 +59,12 @@ namespace DoctorWh0oDiscordBot.Core.Commands
             }
         }
 
-        public SpellDetails ProduceSpellInfo(int spellIndex)
+        public SpellDetails ProduceSpellInfo(string spellName)
         {
             using (var webClient = new WebClient())
             {
-                string rawJSON = webClient.DownloadString("http://dnd5eapi.co/api/spells/" + spellIndex);
+                spellName = spellName.Replace(" ", "-");
+                string rawJSON = webClient.DownloadString("http://dnd5eapi.co/api/spells/" + spellName);
                 
                 SpellDetails spellInfo = JsonConvert.DeserializeObject<SpellDetails>(rawJSON);
 
@@ -90,9 +91,10 @@ namespace DoctorWh0oDiscordBot.Core.Commands
             if (!(spellDetails.material == null)) spellCard.AddField("Materials", spellDetails.material, true);
             spellCard.AddField("Spell level", spellDetails.level, true);
             if (!(spellDetails.desc[0] == null)) spellCard.WithDescription(spellDetails.desc[0]);
+            if (!(spellDetails.concentration == null)) spellCard.AddField("Concentration", spellDetails.concentration, true);
             //if (!(spellDetails.higher_level[0] == null)) spellCard.AddField("At Higher Levels", spellDetails.higher_level[0], false);
-            if (spellDetails.higher_level != null) spellCard.AddField("At higher levels", spellDetails.higher_level[0], false);
-
+            //if (spellDetails.higher_level != null) spellCard.AddField("At higher levels", spellDetails.higher_level[0], false);
+            //ADD RITUAL, AOE, SCHOOL, CLASSES, SUBCLASSES
             return spellCard;
         }
 

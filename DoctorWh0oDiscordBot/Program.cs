@@ -34,7 +34,6 @@ namespace DoctorWh0oDiscordBot
 
             _client.MessageReceived += Client_MessageReceived;
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), null);  //needs to work properly or commands will all fail
-
             _client.Ready += Client_Ready;
             _client.Log += Client_Log;
 
@@ -79,7 +78,6 @@ namespace DoctorWh0oDiscordBot
 
             if (!(Message.HasStringPrefix("!", ref ArgPos) || Message.HasMentionPrefix(_client.CurrentUser, ref ArgPos))) return;
 
-            string SpellName = Message.ToString().Split(" ")[1];
             var Result = await _commands.ExecuteAsync(Context, ArgPos, null);
             
             if (!Result.IsSuccess)

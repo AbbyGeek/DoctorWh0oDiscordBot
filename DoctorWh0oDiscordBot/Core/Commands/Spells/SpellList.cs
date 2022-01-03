@@ -15,7 +15,7 @@ namespace DoctorWh0oDiscordBot.Core.Commands.Spells
         const string UserAgent = "Mozilla / 5.0(Windows NT 6.1; Win64; x64; rv: 47.0) Gecko / 20100101 Firefox / 47.0";
 
         [Command("spelllist"), Alias("SpellList")]
-        public async Task produceList(string message)
+        public async Task produceList()
         {
             Dictionary<string, string> SpellDictionary = CreateArrayOfAllSpells();
             string response = "";
